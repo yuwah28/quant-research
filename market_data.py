@@ -8,28 +8,52 @@ from datetime import datetime, timedelta
 
 
 def get_data(ticker, days, intvl):
+    # grep ticker data
     data = yf.download(
         ticker, 
         period = days, 
         interval = intvl, 
         prepost = True,
-        auto_adjust = False)
+        auto_adjust = False,
+        progress=False,
+    )
+    
+    if data.index.tz is not None:
+        data = data.tz_convert("US/Eastern")
     return data
+    
+def add_rsi(data, rsi_window=14, col="Close"):
+    out = data.copy()
+    out[f"RSI{rsi_window}"] = ta.momentum.RSIIndicator(
+        close=out[col], window=rsi_window
+    ).rsi()
+    return out
+    
 
 
 ticker = "QUBT"
 days, intvl = "5d", "15m"
 data = get_data(ticker, days, intvl)
+data = add_rsi(data, rsi_window=14, col="Close")
 
-print(data.head())
 
-plt.figure(figsize=(10 , 5))
-plt.plot(data.index, data['Close'], label=f'{ticker} Close Price')
-plt.title(f'{ticker} Stock Price Over Time')
-plt.xlabel('Date')
-plt.ylabel('Price (USD)')
-plt.legend()
-plt.grid()
-plt.show()
 
+# build the RSI addplot (separate panel)
+ap = [
+    mpf.make_addplot(
+        data["RSI14"], panel=1, ylabel="RSI(14)"
+    )
+]
+
+style = mpf.make_mpf_style(base_mpf_style="yahoo", gridstyle=":", y_on_right=False)
+
+mpf.plot(
+    data,
+    type="candle",
+    volume=True,
+    addplot=ap,
+    panel_ratios=(3, 1),
+    title=f"{ticker} — {days} ({intvl}, pre/post)",
+    style=style,
+)
 #%%

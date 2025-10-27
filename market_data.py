@@ -20,7 +20,7 @@ def get_data(ticker, days, intvl, force_refresh=False):
             print(f"loaded {ticker} from cache: {path}")
             return data
     
-    tries, pause = 2, 20. # 3 attempts, 20s apart
+    tries, pause = 7, 60. # 3 attempts, 20s apart
     last_err = None
     data = pd.DataFrame()
     for attempt in range(1, tries + 1):

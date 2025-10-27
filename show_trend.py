@@ -1,8 +1,10 @@
 #%%
 from market_data import get_data, add_rsi
-import matplotlib.pyplot as plt
 import mplfinance as mpf
+import matplotlib.pyplot as plt
 import os
+
+from IPython.display import display
 
 # Default parameters
 ticker = "GOOG"
@@ -32,7 +34,7 @@ def fetch_trend(ticker=ticker, days=days, intvl=intvl, line_type=line_type_defau
 
     ap = [mpf.make_addplot(data[rsi_col], panel=2, ylabel=rsi_col)]
     style = mpf.make_mpf_style(base_mpf_style="yahoo", gridstyle=":", y_on_right=False)
-    mpf.plot(
+    fig, _ = mpf.plot(
         data,
         type=line_type,
         volume=True,
@@ -40,9 +42,11 @@ def fetch_trend(ticker=ticker, days=days, intvl=intvl, line_type=line_type_defau
         panel_ratios=(3, 1, 1),
         title=f"{ticker} — {days} ({intvl}, pre/post)",
         style=style,
+        returnfig=True, 
         savefig=path,
+        closefig=False,
     )
-    plt.show()
+    display(fig)
      
     print(f"Saved chart → {path}")
     return path

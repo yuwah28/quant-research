@@ -8,3 +8,7 @@
 2. conda activate quant-research
  
 3. python -m ipykernel install --user --name quant-research --display-name "Python (quant-research)"
+
+4. set environment.yml:
+    rebuild environment by conda env create -f environment.yml
+    conda activate quant-research

@@ -1,0 +1,15 @@
+name: quant-research
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12
+  - jupyterlab
+  - numpy
+  - pandas
+  - matplotlib
+  - yfinance
+  - ta
+  - mplfinance
+  - scikit-learn
+  - scons
+  - tqdm

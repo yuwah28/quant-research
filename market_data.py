@@ -74,24 +74,4 @@ def add_rsi(data, rsi_window, col="Close"):
     return out
     
 
-# #%%
-# ticker = "GOOG"
-# days, intvl = "5d", "15m"
-# data = get_data(ticker, days, intvl)
-# print(data)
-
-# data = add_rsi(data, rsi_window=14, col="Close")
-
-
-# #%%
-# if not data.empty and "RSI14" in data.columns:
-#     ap = [mpf.make_addplot(data["RSI14"], panel=1, ylabel="RSI(14)")]
-#     style = mpf.make_mpf_style(base_mpf_style="yahoo", gridstyle=":", y_on_right=False)
-#     mpf.plot(
-#         data, type="candle", volume=True, addplot=ap, panel_ratios=(3, 1),
-#         title=f"{ticker} — {days} ({intvl}, pre/post)", style=style,
-#     )
-# else:
-#     print("No data or RSI to plot. Try a coarser interval (e.g., '30m' or '1h') or daily bars.")
-
 #%%
